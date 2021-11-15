@@ -57,7 +57,7 @@ Engine::Engine(const char* title, int posX, int posY, bool fullscreen)
 
 	camera = new Camera();
 	map = new Map();
-	player = new Player("ASSETS/Sprites/Hero.png", 10, 10);
+	player = new Player("ASSETS/Sprites/player.png", 10, 10);
 	col = new Collision(map);
 	sound = new Sound();
 }
