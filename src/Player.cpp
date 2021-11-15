@@ -8,11 +8,20 @@ int Player::coins = 0;
 
 Player::Player(const char* texturesheet, float x, float y) : GameObject(texturesheet,x,y)
 {
-	frame.num = 3;
+	frame.num = 2;
 	frame.offset_x = 0;
 	frame.offset_y = 8;
-	src.h = Engine::tileSize;
-	dest.h = Engine::tileSize;
+	src.h = Engine::tileSize *2;
+	dest.h = Engine::tileSize *2;
+
+	src.x = 0;
+	src.y = 0;
+	src.w = 12;
+	src.h = Engine::tileSize *2;
+	dest.x = pos.x;
+	dest.y = pos.y;
+	dest.w = 12;
+	dest.h = Engine::tileSize *2;
 }
 
 void Player::Movement(int style)
@@ -36,7 +45,7 @@ void Player::Movement(int style)
 
 		if (vel.x == 0 && vel.y == 0)
 			frame.num = 1;
-		else frame.num = 3;
+		else frame.num = 2;
 	}
 	else if(style == Platformer)
 		PlatformerMove();
@@ -96,7 +105,7 @@ void Player::PlatformerMove()
 	// Adjust Animations
 	if (vel.x == 0)
 		frame.num = 1;
-	else frame.num = 3;
+	else frame.num = 2;
 }
 
 void Player::Collect(Map* map)
@@ -120,7 +129,7 @@ void Player::moveLeft(int style)
 		vel.x = -15.0f;
 	}
 	frame.flip = SDL_FLIP_HORIZONTAL;
-	frame.offset_y = 8;
+	frame.offset_y = 16;
 }
 
 void Player::moveRight(int style)
@@ -134,13 +143,13 @@ void Player::moveRight(int style)
 		vel.x = 15.0f;
 	}
 	frame.flip = SDL_FLIP_NONE;
-	frame.offset_y = 8;
+	frame.offset_y = 16;
 }
 
 void Player::moveUp()
 {
 	vel.y = -15.0f;
-	frame.offset_y = 16;
+	frame.offset_y = 32;
 }
 
 void Player::moveDown()
