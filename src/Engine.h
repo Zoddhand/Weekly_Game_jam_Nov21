@@ -43,10 +43,10 @@ public:
 	static SDL_Event event;
 	static SDL_Renderer* renderer;
 	static const int tileSize = 8;
-	static const int screen_width = 128;
-	static const int screen_height = 120;
-	static const int mapSizeX = 80;
-	static const int mapSizeY = 30;
+	static const int screen_width = 240;
+	static const int screen_height = 320;
+	static const int mapSizeX = 30;
+	static const int mapSizeY = 40;
 	static float time;
 	static Control cont;
 	static Mix_Chunk* effect[10];

@@ -100,7 +100,7 @@ void Engine::handle_event(float time)
 			style = 0;
 			break;
 		case SDLK_2:
-			map->loadLevel(2);
+			//map->loadLevel(2);
 			style = 1;
 			break;
 		}
