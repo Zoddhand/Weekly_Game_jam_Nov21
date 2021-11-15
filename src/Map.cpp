@@ -115,7 +115,7 @@ void Map::loadLevel(int level)
 {
 	// Create a new string to add levels.
 	std::string* ptr = nullptr;
-	std::string map1[4] = { "ASSETS/Maps/map1_Tile Layer 1.csv" , "ASSETS/Maps/map1_Tile Layer 2.csv","ASSETS/Maps/tiled_example_Col Layer.csv","ASSETS/Maps/tiled_example_Item Layer.csv"};
+	std::string map1[2] = { "ASSETS/Maps/map1_Tile Layer 1.csv" , "ASSETS/Maps/map1_Tile Layer 2.csv"};
 	//std::string map2[4] = { "ASSETS/Maps/tiled_example2_Tile Layer 1.csv","ASSETS/Maps/tiled_example2_Tile Layer 2.csv","ASSETS/Maps/tiled_example2_Col Layer.csv","ASSETS/Maps/tiled_example2_Item Layer.csv" };
 
 	switch (level)
@@ -137,8 +137,8 @@ void Map::loadLevel(int level)
 	// Send all our layers for the level we've chosen to be loaded into the map array.
 	loadMap(ptr[0], maps); // Our first map to load.
 	loadMap(ptr[1], maps2); // Our second map to load.
-	loadMap(ptr[2], mapsCol); // Our third map to load.
-	loadMap(ptr[3], mapsItem); // Our third map to load.
+	//loadMap(ptr[2], mapsCol); // Our third map to load.
+	//loadMap(ptr[3], mapsItem); // Our third map to load.
 }
 
 void Map::drawBackground()
