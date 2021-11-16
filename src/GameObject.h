@@ -30,7 +30,7 @@ private:
 	int direction;
 public:
 	GameObject();
-	GameObject(const char*, float, float);
+	GameObject(const char*, float, float, int sX, int sY);
 	~GameObject();
 
 	void update();

@@ -10,6 +10,7 @@ private:
 public:
 	static bool isOnGround;
 	static int coins;
+	bool gravity = true;
 
 	Player(const char* texturesheet, float x, float y);
 	void Movement(int);
@@ -20,6 +21,8 @@ public:
 	virtual void moveRight(int style);
 	virtual void moveUp();
 	virtual void moveDown();
+	void setGravity(bool a);
+	bool getGravity();
 	void jump();
 };
 

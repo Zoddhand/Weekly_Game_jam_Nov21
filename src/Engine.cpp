@@ -19,6 +19,7 @@ SDL_Event Engine::event;
 Camera* camera = nullptr;
 Map* map = nullptr;
 Player* player = nullptr;
+GameObject* ladder = nullptr;
 Collision* col = nullptr;
 Sound* sound = nullptr;
 
@@ -57,7 +58,8 @@ Engine::Engine(const char* title, int posX, int posY, bool fullscreen)
 
 	camera = new Camera();
 	map = new Map();
-	player = new Player("ASSETS/Sprites/player.png", 10, 10);
+	player = new Player("ASSETS/Sprites/player.png", 10, 260);
+	ladder = new GameObject("ASSETS/Sprites/ladder.png",40,100,8,8*27);
 	col = new Collision(map);
 	sound = new Sound();
 }
@@ -103,9 +105,25 @@ void Engine::handle_event(float time)
 			//map->loadLevel(2);
 			style = 1;
 			break;
+		case SDLK_a:
+			
+			break;
 		}
 	}
 	player->Movement(style);
+
+	if(col->rectCol(player->dest,ladder->dest))
+	{
+		if (keys[SDL_SCANCODE_A] && player->isOnGround == true) {	
+			ladder->setXpos(*player->getXpos());
+		}
+		else if(keys[SDL_SCANCODE_UP])
+		{
+			player->setGravity(false);
+			player->setXpos(*ladder->getXpos());
+		}
+	}
+	print(player->getGravity());
 }
 
 void Engine::update()
@@ -113,6 +131,7 @@ void Engine::update()
 	playBG();
 	col->collide(*player->getXpos(), *player->getYpos(), *player->getXvel(), *player->getYvel());
 	player->update(map);
+	ladder->update();
 	camera->update(*player->getXpos(), *player->getYpos());
 	map->update();
 }
@@ -122,6 +141,7 @@ void Engine::render()
 	SDL_RenderClear(renderer);
 	map->render();
 	player->render();
+	ladder->render();
 	hud();
 	SDL_RenderPresent(renderer);
 }

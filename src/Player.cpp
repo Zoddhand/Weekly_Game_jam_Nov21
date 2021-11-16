@@ -6,7 +6,7 @@
 bool Player::isOnGround;
 int Player::coins = 0;
 
-Player::Player(const char* texturesheet, float x, float y) : GameObject(texturesheet,x,y)
+Player::Player(const char* texturesheet, float x, float y) : GameObject(texturesheet,x,y,8,8)
 {
 	frame.num = 2;
 	frame.offset_x = 0;
@@ -28,20 +28,28 @@ void Player::Movement(int style)
 {
 	if (style == RPG)
 	{
-		if (keys[SDL_SCANCODE_DOWN] || Engine::cont.Down) {
-			moveDown();
+		vel.y += 20.0f * Engine::time; // Gravity.
+		if(!gravity)
+		{
+			if (keys[SDL_SCANCODE_DOWN] || Engine::cont.Down) {
+				moveDown();
+			}
+			else if (keys[SDL_SCANCODE_UP] || Engine::cont.Up) {
+				moveUp();
+			}
+			else vel.y = 0; frame.num = 1;
 		}
-		else if (keys[SDL_SCANCODE_UP] || Engine::cont.Up) {
-			moveUp();
+		if(isOnGround)
+		{
+			if (keys[SDL_SCANCODE_RIGHT] || Engine::cont.Right) {
+				moveRight(RPG);
+			}
+			else if (keys[SDL_SCANCODE_LEFT] || Engine::cont.Left) {
+				moveLeft(RPG);
+			}
+			else vel.x = 0; frame.num = 1;
 		}
-		else vel.y = 0; frame.num = 1;
-		if (keys[SDL_SCANCODE_RIGHT] || Engine::cont.Right) {
-			moveRight(RPG);
-		}
-		else if (keys[SDL_SCANCODE_LEFT] || Engine::cont.Left) {
-			moveLeft(RPG);
-		}
-		else vel.x = 0; frame.num = 1;
+		
 
 		if (vel.x == 0 && vel.y == 0)
 			frame.num = 1;
@@ -74,14 +82,10 @@ void Player::PlatformerMove()
 	else if (keys[SDL_SCANCODE_LEFT] || Engine::cont.Left) {
 		moveLeft(Platformer);
 	}
-
-	if (keys[SDL_SCANCODE_SPACE] || Engine::cont.AButton)
+	if(gravity)
 	{
-		jump();
+		vel.y += 20.0f * Engine::time; // Gravity.
 	}
-
-	vel.y += 20.0f * Engine::time; // Gravity.
-
 	if (isOnGround) // Slows us to a stop.
 	{
 		vel.x += -3.0f * vel.x * Engine::time;
@@ -106,6 +110,15 @@ void Player::PlatformerMove()
 	if (vel.x == 0)
 		frame.num = 1;
 	else frame.num = 2;
+}
+void Player::setGravity(bool a)
+{
+	gravity = a;
+}
+
+bool Player::getGravity()
+{
+	return gravity;
 }
 
 void Player::Collect(Map* map)

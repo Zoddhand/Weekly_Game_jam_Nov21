@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <time.h>
 
 Map::Map()
 {
@@ -19,6 +20,9 @@ Map::Map()
 
 	/* Coin Init */
 	sprite[coin].tex = TextureManager::loadTexture("ASSETS/Sprites/Red_coin.png");
+	sprite[man].tex = TextureManager::loadTexture("ASSETS/Sprites/man.png");
+	sprite[woman].tex = TextureManager::loadTexture("ASSETS/Sprites/woman.png");
+	sprite[fire].tex = TextureManager::loadTexture("ASSETS/Sprites/fire.png");
 
 	loadLevel(1);
 }
@@ -30,14 +34,17 @@ Map::~Map()
 
 void Map::update()
 {
+	srand ( time(NULL) );
+	
 }
 
 void Map::render()
 {
-	//drawMap(maps2);
+	drawMap(maps2);
 	drawMap(maps);
-	//drawMap(mapsCol);
-	//drawMap(mapsItem);
+	drawMap(mapsCol);
+	drawMap(mapsItem);
+	newWin = false;
 }
 
 void Map::loadMap(std::string txt, int arr[Engine::mapSizeY][Engine::mapSizeX])
@@ -97,14 +104,54 @@ void Map::drawMap(int arr[Engine::mapSizeY][Engine::mapSizeX])
 			{
 				TextureManager::Draw(sprite[tile].tex, sprite[tile].src, sprite[tile].dest);
 			}
-			if (arr[i][k] == 12)
+			if (arr[i][k] == 40)
 			{
-				sprite[coin].dest.x = sprite[tile].dest.x;
-				sprite[coin].dest.y = sprite[tile].dest.y;
-				sprite[coin].dest.w = 8;
-				sprite[coin].dest.h = 8;
-				TextureManager::Draw(sprite[coin].tex, sprite[coin].src, sprite[coin].dest);
-				TextureManager::FrameUpdate(&sprite[coin].src, 14, 0, 0);
+				if(newWin)
+				{
+					if(rand() % 10 + 1 < 5)
+					{
+						if(rand() % 3 + 1 == 1)
+						{
+							setItemTile(k,i,1);
+						}
+						else if(rand() % 3 + 1 == 2)
+						{
+							setItemTile(k,i,2);
+						}
+						else if(rand() % 3 + 1 == 3)
+						{
+							setItemTile(k,i,3);
+						}
+					}
+				}
+
+			}
+			if (arr[i][k] == 1)
+			{
+				sprite[man].dest.x = sprite[tile].dest.x;
+				sprite[man].dest.y = sprite[tile].dest.y;
+				sprite[man].dest.w = 8;
+				sprite[man].dest.h = 8;
+				TextureManager::Draw(sprite[man].tex, sprite[man].src, sprite[man].dest);
+				TextureManager::FrameUpdate(&sprite[man].src, 2, 0, 0);
+			}
+			if (arr[i][k] == 2)
+			{
+				sprite[woman].dest.x = sprite[tile].dest.x;
+				sprite[woman].dest.y = sprite[tile].dest.y;
+				sprite[woman].dest.w = 8;
+				sprite[woman].dest.h = 8;
+				TextureManager::Draw(sprite[woman].tex, sprite[woman].src, sprite[woman].dest);
+				TextureManager::FrameUpdate(&sprite[woman].src, 2, 0, 0);
+			}
+			if (arr[i][k] == 3)
+			{
+				sprite[fire].dest.x = sprite[tile].dest.x;
+				sprite[fire].dest.y = sprite[tile].dest.y;
+				sprite[fire].dest.w = 8;
+				sprite[fire].dest.h = 8;
+				TextureManager::Draw(sprite[fire].tex, sprite[fire].src, sprite[fire].dest);
+				TextureManager::FrameUpdate(&sprite[fire].src, 2, 0, 0);
 			}
 		}
 	}
@@ -115,7 +162,7 @@ void Map::loadLevel(int level)
 {
 	// Create a new string to add levels.
 	std::string* ptr = nullptr;
-	std::string map1[2] = { "ASSETS/Maps/map1_Tile Layer 1.csv" , "ASSETS/Maps/map1_Tile Layer 2.csv"};
+	std::string map1[4] = { "ASSETS/Maps/map1_Tile Layer 1.csv" , "ASSETS/Maps/map1_Tile Layer 2.csv" ,"ASSETS/Maps/map1_Col Layer.csv","ASSETS/Maps/map1_Item Layer.csv"};
 	//std::string map2[4] = { "ASSETS/Maps/tiled_example2_Tile Layer 1.csv","ASSETS/Maps/tiled_example2_Tile Layer 2.csv","ASSETS/Maps/tiled_example2_Col Layer.csv","ASSETS/Maps/tiled_example2_Item Layer.csv" };
 
 	switch (level)
@@ -127,7 +174,7 @@ void Map::loadLevel(int level)
 		//ptr = map2;
 		break;
 	case 3:
-		//ptr = map3;
+		//ptr = map3;coin
 		break;
 	default:
 		ptr = map1;
@@ -137,8 +184,8 @@ void Map::loadLevel(int level)
 	// Send all our layers for the level we've chosen to be loaded into the map array.
 	loadMap(ptr[0], maps); // Our first map to load.
 	loadMap(ptr[1], maps2); // Our second map to load.
-	//loadMap(ptr[2], mapsCol); // Our third map to load.
-	//loadMap(ptr[3], mapsItem); // Our third map to load.
+	loadMap(ptr[2], mapsCol); // Our third map to load.
+	loadMap(ptr[3], mapsItem); // Our third map to load.
 }
 
 void Map::drawBackground()

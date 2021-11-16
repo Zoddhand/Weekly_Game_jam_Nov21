@@ -13,7 +13,7 @@ private:
 	//Sound Variables Set enum to sound effect ie. jump.
 	Mix_Music* Bg = NULL;
 	enum { E1, E2 };
-	int style = 0;
+	int style = 1;
 	struct Control
 	{
 		bool Up;
@@ -37,6 +37,7 @@ public:
 	~Engine();
 	//Public Variables.
 	bool run = true;
+	const Uint8* keys = SDL_GetKeyboardState(NULL);
 
 	//Static Variables.
 	static SDL_Window* window;

@@ -8,7 +8,7 @@ GameObject::GameObject()
 
 }
 
-GameObject::GameObject(const char* texturesheet, float x, float y)
+GameObject::GameObject(const char* texturesheet, float x, float y, int sX = Engine::tileSize, int sY = Engine::tileSize)
 {
 	tileSize = Engine::tileSize;
 	tex = TextureManager::loadTexture(texturesheet);
@@ -18,12 +18,12 @@ GameObject::GameObject(const char* texturesheet, float x, float y)
 
 	src.x = 0;
 	src.y = 0;
-	src.w = tileSize;
-	src.h = tileSize;
+	src.w = sX;
+	src.h = sY;
 	dest.x = pos.x;
 	dest.y = pos.y;
-	dest.w = tileSize;
-	dest.h = tileSize;
+	dest.w = sX;
+	dest.h = sY;
 }
 GameObject::~GameObject()
 {

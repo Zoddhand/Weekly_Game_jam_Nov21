@@ -10,13 +10,13 @@ private:
 	struct Spr
 	{
 		SDL_Texture* tex = nullptr;
-		SDL_Rect src = { 0,0,16,16 };
-		SDL_Rect dest = { 0,0,16,16 };
+		SDL_Rect src = { 0,0,8,8 };
+		SDL_Rect dest = { 0,0,8,8 };
 		int framenum = 1;
 	};
 	Spr sprite[10];
 	int count = 0;
-	enum Sprite_name { tile, background, bomb, explosion, coin };
+	enum Sprite_name { tile, background, bomb, explosion, coin, man, woman, fire };
 
 	int maps[Engine::mapSizeY][Engine::mapSizeX];
 	int maps2[Engine::mapSizeY][Engine::mapSizeX];
@@ -41,5 +41,6 @@ public:
 	void setColTile(float x, float y, int value);
 	int getItemTile(float x, float y);
 	void setItemTile(float x, float y, int value);
+	bool newWin = true;
 };
 
