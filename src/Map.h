@@ -16,7 +16,7 @@ private:
 	};
 	Spr sprite[10];
 	int count = 0;
-	enum Sprite_name { tile, background, bomb, explosion, coin, man, woman, fire };
+	enum Sprite_name { tile, coin, man, woman, fire, smoke };
 
 	int maps[Engine::mapSizeY][Engine::mapSizeX];
 	int maps2[Engine::mapSizeY][Engine::mapSizeX];

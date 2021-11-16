@@ -55,8 +55,6 @@ void Player::Movement(int style)
 			frame.num = 1;
 		else frame.num = 2;
 	}
-	else if(style == Platformer)
-		PlatformerMove();
 
 	if (*getXpos() <= 0)
 		setXpos((int)* getXpos());
@@ -72,44 +70,6 @@ void Player::update(Map* map)
 {
 	GameObject::update();
 	Collect(map);
-}
-
-void Player::PlatformerMove()
-{
-	if (keys[SDL_SCANCODE_RIGHT] || Engine::cont.Right) {
-		moveRight(Platformer);
-	}
-	else if (keys[SDL_SCANCODE_LEFT] || Engine::cont.Left) {
-		moveLeft(Platformer);
-	}
-	if(gravity)
-	{
-		vel.y += 20.0f * Engine::time; // Gravity.
-	}
-	if (isOnGround) // Slows us to a stop.
-	{
-		vel.x += -3.0f * vel.x * Engine::time;
-		if (fabs(vel.x) < 0.01f)
-			vel.x = 0.0f;
-	}
-
-	// Clamp velocities
-	if (vel.x >  10.0f)
-		vel.x =  10.0f;
-				 
-	if (vel.x <  -10.0f)
-		vel.x =  -10.0f;
-
-	if (vel.y> 100.0f)
-		vel.y = 100.0f;
-
-	if (vel.y < -100.0f)
-		vel.y = -100.0f;
-
-	// Adjust Animations
-	if (vel.x == 0)
-		frame.num = 1;
-	else frame.num = 2;
 }
 void Player::setGravity(bool a)
 {
@@ -190,4 +150,9 @@ void Player::jump()
 	{
 		vel.y = -12.0f;
 	}
+}
+
+void Player::smoke(Map* map)
+{
+	map->setItemTile(pos.x,pos.y-1,57);
 }
