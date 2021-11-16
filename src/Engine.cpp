@@ -140,8 +140,8 @@ void Engine::render()
 {
 	SDL_RenderClear(renderer);
 	map->render();
-	player->render();
 	ladder->render();
+	player->render();
 	hud();
 	SDL_RenderPresent(renderer);
 }
