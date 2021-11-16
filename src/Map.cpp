@@ -23,6 +23,7 @@ Map::Map()
 	sprite[man].tex = TextureManager::loadTexture("ASSETS/Sprites/man.png");
 	sprite[woman].tex = TextureManager::loadTexture("ASSETS/Sprites/woman.png");
 	sprite[fire].tex = TextureManager::loadTexture("ASSETS/Sprites/fire.png");
+	sprite[smoke].tex = TextureManager::loadTexture("ASSETS/Sprites/smoke.png");
 
 	loadLevel(1);
 }
@@ -152,6 +153,15 @@ void Map::drawMap(int arr[Engine::mapSizeY][Engine::mapSizeX])
 				sprite[fire].dest.h = 8;
 				TextureManager::Draw(sprite[fire].tex, sprite[fire].src, sprite[fire].dest);
 				TextureManager::FrameUpdate(&sprite[fire].src, 2, 0, 0);
+			}
+			if (arr[i][k] == 57)
+			{
+				sprite[smoke].dest.x = sprite[tile].dest.x;
+				sprite[smoke].dest.y = sprite[tile].dest.y;
+				sprite[smoke].dest.w = 8;
+				sprite[smoke].dest.h = 8;
+				TextureManager::Draw(sprite[smoke].tex, sprite[smoke].src, sprite[smoke].dest);
+				TextureManager::FrameUpdate(&sprite[smoke].src, 3, 0, 0);
 			}
 		}
 	}

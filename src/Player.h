@@ -14,7 +14,6 @@ public:
 
 	Player(const char* texturesheet, float x, float y);
 	void Movement(int);
-	void PlatformerMove();
 	void Collect(Map* map);
 	virtual void update(Map* map);
 	virtual void moveLeft(int style);
@@ -24,5 +23,6 @@ public:
 	void setGravity(bool a);
 	bool getGravity();
 	void jump();
+	void smoke(Map*);
 };
 

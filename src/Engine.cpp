@@ -112,6 +112,12 @@ void Engine::handle_event(float time)
 	}
 	player->Movement(style);
 
+	if (!player->isOnGround && keys[SDL_SCANCODE_A] || Engine::cont.AButton) {
+		player->smoke(map);
+	}	
+	if(player->isOnGround)
+		player->setGravity(true);
+
 	if(col->rectCol(player->dest,ladder->dest))
 	{
 		if (keys[SDL_SCANCODE_A] && player->isOnGround == true) {	
