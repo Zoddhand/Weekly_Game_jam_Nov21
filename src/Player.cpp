@@ -123,11 +123,24 @@ bool Player::getGravity()
 
 void Player::Collect(Map* map)
 {
-	if (Collision::ItemCollect(map, *getXpos(), *getYpos(), 12, 0))
+	if (Collision::ItemCollect(map, *getXpos(), *getYpos(), 1, 0))
 	{
 		// Do stuff if we collect a coin.
 		Sound::playEffect(Engine::effect[0]);
-		Player::coins += 1;
+		Player::coins += 100;
+	}
+	if (Collision::ItemCollect(map, *getXpos(), *getYpos(), 2, 0))
+	{
+		// Do stuff if we collect a coin.
+		Sound::playEffect(Engine::effect[0]);
+		Player::coins += 100;
+	}
+	if (Collision::ItemCollect(map, *getXpos(), *getYpos(), 3, 3))
+	{
+		pos.y = pos.y +1;
+		// Do stuff if we collect a coin.
+		Sound::playEffect(Engine::effect[0]);
+		Player::coins -= 100;
 	}
 }
 

@@ -42,7 +42,7 @@ void Map::render()
 {
 	drawMap(maps2);
 	drawMap(maps);
-	drawMap(mapsCol);
+	//drawMap(mapsCol);
 	drawMap(mapsItem);
 	newWin = false;
 }
