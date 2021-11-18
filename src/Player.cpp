@@ -10,17 +10,17 @@ Player::Player(const char* texturesheet, float x, float y) : GameObject(textures
 {
 	frame.num = 2;
 	frame.offset_x = 0;
-	frame.offset_y = 8;
+	frame.offset_y = 16;
 	src.h = Engine::tileSize *2;
 	dest.h = Engine::tileSize *2;
 
 	src.x = 0;
 	src.y = 0;
-	src.w = 12;
+	src.w = 10;
 	src.h = Engine::tileSize *2;
 	dest.x = pos.x;
 	dest.y = pos.y;
-	dest.w = 12;
+	dest.w = 10;
 	dest.h = Engine::tileSize *2;
 }
 
@@ -28,7 +28,6 @@ void Player::Movement(int style)
 {
 	if (style == RPG)
 	{
-		vel.y += 20.0f * Engine::time; // Gravity.
 		if(!gravity)
 		{
 			if (keys[SDL_SCANCODE_DOWN] || Engine::cont.Down) {
@@ -47,15 +46,32 @@ void Player::Movement(int style)
 			else if (keys[SDL_SCANCODE_LEFT] || Engine::cont.Left) {
 				moveLeft(RPG);
 			}
-			else vel.x = 0; frame.num = 1;
+			else 
+			{
+				vel.x = 0; 
+				frame.num = 1;
+			}
 		}
 		
-
 		if (vel.x == 0 && vel.y == 0)
+		{
 			frame.num = 1;
+		}	
 		else frame.num = 2;
+
+		vel.y += 20.0f * Engine::time; // Gravity.
+		if (isOnGround) // Slows us to a stop.
+		{
+			vel.x += -3.0f * vel.x * Engine::time;
+			if (fabs(vel.x) < 0.01f)
+				vel.x = 0.0f;
+		}
+		print("vel.x:" << vel.x);
+		print("vel.y:" << vel.y);
+
 	}
 
+	// SCREEN BOUNDS.
 	if (*getXpos() <= 0)
 		setXpos((int)* getXpos());
 	else if (*getXpos() >= Engine::mapSizeX - 1)
@@ -98,6 +114,8 @@ void Player::Collect(Map* map)
 	if (Collision::ItemCollect(map, *getXpos(), *getYpos(), 3, 3))
 	{
 		pos.y = pos.y +1;
+		pos.x = pos.x +1;
+		setGravity(true);
 		// Do stuff if we collect a coin.
 		Sound::playEffect(Engine::effect[0]);
 		Player::coins -= 100;
