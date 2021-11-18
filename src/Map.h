@@ -16,7 +16,7 @@ private:
 	};
 	Spr sprite[10];
 	int count = 0;
-	enum Sprite_name { tile, coin, man, woman, fire, smoke };
+	enum Sprite_name { tile, coin, man, woman, fire, smoke, cloud };
 
 	int maps[Engine::mapSizeY][Engine::mapSizeX];
 	int maps2[Engine::mapSizeY][Engine::mapSizeX];
@@ -42,5 +42,6 @@ public:
 	int getItemTile(float x, float y);
 	void setItemTile(float x, float y, int value);
 	bool newWin = true;
+	int NumOfCit = 0;
 };
 

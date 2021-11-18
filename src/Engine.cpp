@@ -8,6 +8,7 @@ using namespace std;
 #include "Player.h"
 #include "Collision.h"
 #include "Sound.h"
+#include "Timer.h"
 
 float Engine::time;
 Engine::Control Engine::cont;
@@ -26,7 +27,7 @@ Sound* sound = nullptr;
 Engine::Engine(const char* title, int posX, int posY, bool fullscreen)
 {
 	int scale = 3.0f;
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS | SDL_INIT_JOYSTICK) < 0)
 	{
 		print("Error: SDL NOT INITIALIZED -" << SDL_GetError())
 	}
@@ -112,7 +113,7 @@ void Engine::handle_event(float time)
 	}
 	player->Movement(style);
 
-	if (!player->isOnGround && keys[SDL_SCANCODE_A] || Engine::cont.AButton) {
+	if (keys[SDL_SCANCODE_A]  && !player->isOnGround || cont.AButton && !player->isOnGround) {
 		player->smoke(map);
 	}	
 	if(player->isOnGround)
@@ -120,20 +121,26 @@ void Engine::handle_event(float time)
 
 	if(col->rectCol(player->dest,ladder->dest))
 	{
-		if (keys[SDL_SCANCODE_A] && player->isOnGround == true) {	
+		if (keys[SDL_SCANCODE_A]  && player->isOnGround == true || cont.AButton && player->isOnGround == true) {	
 			ladder->setXpos(*player->getXpos());
 		}
-		else if(keys[SDL_SCANCODE_UP])
+		else if(keys[SDL_SCANCODE_UP] || cont.Up)
 		{
 			player->setGravity(false);
 			player->setXpos(*ladder->getXpos());
 		}
+		else
+		{
+			ladder->setXpos(round(*ladder->getXpos()));
+		}
+	
 	}
 	print(player->getGravity());
 }
 
 void Engine::update()
 {
+	print(*ladder->getXpos())
 	playBG();
 	col->collide(*player->getXpos(), *player->getYpos(), *player->getXvel(), *player->getYvel());
 	player->update(map);
@@ -148,6 +155,7 @@ void Engine::render()
 	map->render();
 	ladder->render();
 	player->render();
+	SDL_RenderDrawRect(renderer, &player->dest);
 	hud();
 	SDL_RenderPresent(renderer);
 }
@@ -155,5 +163,5 @@ void Engine::render()
 void Engine::playBG()
 {
 	Sound::setVolume(20);
-	Sound::playBackground(Bg,1);
+	//Sound::playBackground(Bg,1);
 }

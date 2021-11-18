@@ -24,6 +24,9 @@ Map::Map()
 	sprite[woman].tex = TextureManager::loadTexture("ASSETS/Sprites/woman.png");
 	sprite[fire].tex = TextureManager::loadTexture("ASSETS/Sprites/fire.png");
 	sprite[smoke].tex = TextureManager::loadTexture("ASSETS/Sprites/smoke.png");
+	sprite[cloud].tex = TextureManager::loadTexture("ASSETS/Sprites/cloud.png");
+	sprite[cloud].src = { 0,0,32,24 };
+	sprite[cloud].dest = { 0,32,32,24 };
 
 	loadLevel(1);
 }
@@ -36,15 +39,17 @@ Map::~Map()
 void Map::update()
 {
 	srand ( time(NULL) );
-	
+	print("NumOfCit:" << NumOfCit);
 }
 
 void Map::render()
 {
-	drawMap(maps2);
+	
 	drawMap(maps);
+	drawMap(maps2);
 	//drawMap(mapsCol);
 	drawMap(mapsItem);
+	drawBackground();
 	newWin = false;
 }
 
@@ -93,6 +98,7 @@ void Map::loadMap(std::string txt, int arr[Engine::mapSizeY][Engine::mapSizeX])
 
 void Map::drawMap(int arr[Engine::mapSizeY][Engine::mapSizeX])
 {
+	NumOfCit = 0;
 	for (int i = 0; i < Camera::vis.y + Camera::offY; i++)
 	{
 		for (int k = 0; k < Camera::vis.x + Camera::offX; k++)
@@ -129,6 +135,7 @@ void Map::drawMap(int arr[Engine::mapSizeY][Engine::mapSizeX])
 			}
 			if (arr[i][k] == 1)
 			{
+				NumOfCit += 1;
 				sprite[man].dest.x = sprite[tile].dest.x;
 				sprite[man].dest.y = sprite[tile].dest.y;
 				sprite[man].dest.w = 8;
@@ -138,6 +145,7 @@ void Map::drawMap(int arr[Engine::mapSizeY][Engine::mapSizeX])
 			}
 			if (arr[i][k] == 2)
 			{
+				NumOfCit += 1;
 				sprite[woman].dest.x = sprite[tile].dest.x;
 				sprite[woman].dest.y = sprite[tile].dest.y;
 				sprite[woman].dest.w = 8;
@@ -161,7 +169,7 @@ void Map::drawMap(int arr[Engine::mapSizeY][Engine::mapSizeX])
 				sprite[smoke].dest.w = 8;
 				sprite[smoke].dest.h = 8;
 				TextureManager::Draw(sprite[smoke].tex, sprite[smoke].src, sprite[smoke].dest);
-				TextureManager::FrameUpdate(&sprite[smoke].src, 3, 0, 0);
+				TextureManager::FrameUpdate(&sprite[smoke].src, 2, 0, 0);
 			}
 		}
 	}
@@ -200,6 +208,10 @@ void Map::loadLevel(int level)
 
 void Map::drawBackground()
 {
+	sprite[cloud].dest.x += 1;
+	if(sprite[cloud].dest.x == Engine::mapSizeX * Engine::tileSize)
+		sprite[cloud].dest.x = 0;
+	TextureManager::Draw(sprite[cloud].tex, sprite[cloud].src, sprite[cloud].dest);
 }
 
 int Map::getColTile(float x, float y)
