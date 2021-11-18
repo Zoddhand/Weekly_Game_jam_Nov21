@@ -11,6 +11,7 @@ public:
 	static bool isOnGround;
 	static int coins;
 	bool gravity = true;
+	bool hitFire;
 
 	Player(const char* texturesheet, float x, float y);
 	void Movement(int);

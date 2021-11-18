@@ -17,15 +17,12 @@ bool Timer(float dur)
     {
         //Start the timer
         start = SDL_GetTicks();
-        print("Start:" << start)
         //Start the timer
     }
 
     cur = SDL_GetTicks();
-    print("Cur:" << cur);
 
     unsigned time = cur - time;
-     print("Timer:" << time);
 
     if (time == dur)
     {
