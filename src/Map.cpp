@@ -51,6 +51,7 @@ void Map::render()
 	drawMap(mapsItem);
 	drawBackground();
 	newWin = false;
+	newFire = false;
 }
 
 void Map::loadMap(std::string txt, int arr[Engine::mapSizeY][Engine::mapSizeX])
@@ -125,11 +126,14 @@ void Map::drawMap(int arr[Engine::mapSizeY][Engine::mapSizeX])
 						{
 							setItemTile(k,i,2);
 						}
-						else if(rand() % 3 + 1 == 3)
+					}
+				}
+				if(newFire)
+				{
+					if(rand() % 6 + 1 == 3)
 						{
 							setItemTile(k,i,3);
 						}
-					}
 				}
 
 			}

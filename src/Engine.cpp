@@ -52,8 +52,10 @@ Engine::Engine(const char* title, int posX, int posY, bool fullscreen)
 		std::cout << "SDL_mixer could not initialize! SDL_mixer Error: %s\n";
 		std::cout << Mix_GetError();
 	}
-	Bg = Sound::loadBackground("ASSETS/Sound/BG.wav");
-	Engine::effect[0] = Sound::loadEffect("ASSETS/Sound/Retro_8-Bit_Game-Hit_Hurt_Fall_Drop_02.wav");
+	Bg = Sound::loadBackground("ASSETS/Sound/Intergalactic Odyssey.ogg");
+	Engine::effect[0] = Sound::loadEffect("ASSETS/Sound/Retro_8-Bit_Game-Bomb_Explosion_09.wav");
+	Engine::effect[1] = Sound::loadEffect("ASSETS/Sound/walking.wav");
+
 	controllerInit();
 
 	camera = new Camera();
@@ -91,8 +93,10 @@ void Engine::handle_event(float time)
 			run = false;
 			break;
 		case SDLK_1:
-			map->loadLevel(1);
-			style = 0;
+			//map->loadLevel(1);
+			map->newFire = true;
+			Sound::playEffect(Engine::effect[0]);
+			//style = 0;
 			break;
 		case SDLK_2:
 			//map->loadLevel(2);
@@ -148,7 +152,7 @@ void Engine::render()
 	map->render();
 	ladder->render();
 	player->render();
-	SDL_RenderDrawRect(renderer, &player->dest);
+	//SDL_RenderDrawRect(renderer, &player->dest);
 	hud();
 	SDL_RenderPresent(renderer);
 	sounds();
@@ -156,7 +160,7 @@ void Engine::render()
 
 void Engine::playBG()
 {
-	Sound::setVolume(20);
+	Sound::setVolume(150);
 	Sound::playBackground(Bg,1);
 }
 
