@@ -70,7 +70,7 @@ public:
 		}
 		return effect;
 	}
-	static void playEffect(Mix_Chunk* sound)
+	static void playEffect(Mix_Chunk* sound, int channel = -1)
 	{
 		Mix_PlayChannel(-1, sound, 0);
 	}

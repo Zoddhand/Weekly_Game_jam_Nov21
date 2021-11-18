@@ -51,6 +51,8 @@ public:
 	static float time;
 	static Control cont;
 	static Mix_Chunk* effect[10];
+	TTF_Font* font;
+
 
 	//Static Functions.
 
@@ -62,6 +64,11 @@ public:
 	void Controller();
 	void controllerInit();
 	void hud();
-	void sounds();
+	void saveHighscore();
+	void Restart();
+	bool Timer(int);
 	int i;
+	int scale;
+	bool timerStart = true;
+	int start;
 };
