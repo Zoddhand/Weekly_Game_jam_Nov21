@@ -53,8 +53,7 @@ Engine::Engine(const char* title, int posX, int posY, bool fullscreen)
 		std::cout << Mix_GetError();
 	}
 	Bg = Sound::loadBackground("ASSETS/Sound/BG.wav");
-	Engine::effect[0] = Sound::loadEffect("ASSETS/sound/COIN.wav");
-
+	Engine::effect[0] = Sound::loadEffect("ASSETS/Sound/Retro_8-Bit_Game-Hit_Hurt_Fall_Drop_02.wav");
 	controllerInit();
 
 	camera = new Camera();
@@ -67,14 +66,7 @@ Engine::Engine(const char* title, int posX, int posY, bool fullscreen)
 
 Engine::~Engine()
 {
-	SDL_DestroyWindow(window);
-	SDL_DestroyRenderer(renderer);
-	delete camera;
-	delete map;
-	delete player;
-	delete col;
-	delete sound;
-	SDL_Quit();
+	
 }
 
 void Engine::handle_event(float time)
@@ -112,35 +104,36 @@ void Engine::handle_event(float time)
 		}
 	}
 	player->Movement(style);
-
-	if (keys[SDL_SCANCODE_A]  && !player->isOnGround || cont.AButton && !player->isOnGround) {
-		player->smoke(map);
-	}	
-	if(player->isOnGround)
-		player->setGravity(true);
-
-	if(col->rectCol(player->dest,ladder->dest))
+		if(!player->hitFire)
 	{
-		if (keys[SDL_SCANCODE_A]  && player->isOnGround == true || cont.AButton && player->isOnGround == true) {	
-			ladder->setXpos(*player->getXpos());
-		}
-		else if(keys[SDL_SCANCODE_UP] || cont.Up)
+		if (keys[SDL_SCANCODE_A]  && !player->isOnGround || cont.AButton && !player->isOnGround) {
+			player->smoke(map);
+		}	
+		if(player->isOnGround)
+			player->setGravity(true);
+
+		if(col->rectCol(player->dest,ladder->dest))
 		{
-			player->setGravity(false);
-			player->setXpos(*ladder->getXpos());
+			if (keys[SDL_SCANCODE_A]  && player->isOnGround == true || cont.AButton && player->isOnGround == true) {	
+				ladder->setXpos(*player->getXpos());
+			}
+			else if(keys[SDL_SCANCODE_UP] || cont.Up)
+			{
+				player->setGravity(false);
+				player->setXpos(*ladder->getXpos());
+			}
+			else
+			{
+				ladder->setXpos(round(*ladder->getXpos()));
+			}
+		
 		}
-		else
-		{
-			ladder->setXpos(round(*ladder->getXpos()));
-		}
-	
 	}
-	print(player->getGravity());
+
 }
 
 void Engine::update()
 {
-	print(*ladder->getXpos())
 	playBG();
 	col->collide(*player->getXpos(), *player->getYpos(), *player->getXvel(), *player->getYvel());
 	player->update(map);
@@ -158,10 +151,20 @@ void Engine::render()
 	SDL_RenderDrawRect(renderer, &player->dest);
 	hud();
 	SDL_RenderPresent(renderer);
+	sounds();
 }
 
 void Engine::playBG()
 {
 	Sound::setVolume(20);
-	//Sound::playBackground(Bg,1);
+	Sound::playBackground(Bg,1);
+}
+
+void Engine::sounds()
+{
+	if(i != map->NumOfCit)
+	{
+		Sound::playEffect(Engine::effect[0]);
+	}	
+	i = map->NumOfCit;
 }

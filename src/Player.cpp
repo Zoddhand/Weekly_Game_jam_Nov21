@@ -66,8 +66,6 @@ void Player::Movement(int style)
 			if (fabs(vel.x) < 0.01f)
 				vel.x = 0.0f;
 		}
-		print("vel.x:" << vel.x);
-		print("vel.y:" << vel.y);
 
 	}
 
@@ -86,6 +84,9 @@ void Player::update(Map* map)
 {
 	GameObject::update();
 	Collect(map);
+
+	if(isOnGround)
+		hitFire = false;
 }
 void Player::setGravity(bool a)
 {
@@ -113,6 +114,7 @@ void Player::Collect(Map* map)
 	}
 	if (Collision::ItemCollect(map, *getXpos(), *getYpos(), 3, 3))
 	{
+		hitFire = true;
 		pos.y = pos.y +1;
 		pos.x = pos.x +1;
 		setGravity(true);

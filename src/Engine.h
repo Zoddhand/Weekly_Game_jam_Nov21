@@ -62,4 +62,6 @@ public:
 	void Controller();
 	void controllerInit();
 	void hud();
+	void sounds();
+	int i;
 };

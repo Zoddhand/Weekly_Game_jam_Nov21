@@ -39,7 +39,7 @@ Map::~Map()
 void Map::update()
 {
 	srand ( time(NULL) );
-	print("NumOfCit:" << NumOfCit);
+	print(NumOfCit);
 }
 
 void Map::render()
