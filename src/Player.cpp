@@ -136,6 +136,7 @@ void Player::moveLeft(int style)
 	}
 	frame.flip = SDL_FLIP_HORIZONTAL;
 	frame.offset_y = 16;
+	//Sound::playEffect(Engine::effect[1]);
 }
 
 void Player::moveRight(int style)
@@ -150,6 +151,7 @@ void Player::moveRight(int style)
 	}
 	frame.flip = SDL_FLIP_NONE;
 	frame.offset_y = 16;
+	//Sound::playEffect(Engine::effect[1]);
 }
 
 void Player::moveUp()

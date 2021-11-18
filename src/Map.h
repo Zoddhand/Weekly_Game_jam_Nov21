@@ -42,6 +42,7 @@ public:
 	int getItemTile(float x, float y);
 	void setItemTile(float x, float y, int value);
 	bool newWin = true;
+	bool newFire = true;
 	int NumOfCit = 0;
 };
 
