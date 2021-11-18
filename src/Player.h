@@ -12,6 +12,8 @@ public:
 	static int coins;
 	bool gravity = true;
 	bool hitFire;
+	int lives = 3;
+	bool allowExt = true;
 
 	Player(const char* texturesheet, float x, float y);
 	void Movement(int);

@@ -55,6 +55,10 @@ Engine::Engine(const char* title, int posX, int posY, bool fullscreen)
 	Bg = Sound::loadBackground("ASSETS/Sound/Intergalactic Odyssey.ogg");
 	Engine::effect[0] = Sound::loadEffect("ASSETS/Sound/Retro_8-Bit_Game-Bomb_Explosion_09.wav");
 	Engine::effect[1] = Sound::loadEffect("ASSETS/Sound/walking.wav");
+	Engine::effect[2] = Sound::loadEffect("ASSETS/Sound/Retro_8-Bit_Game-Digitalized_Voice_Scream_01.wav");
+	Engine::effect[3] = Sound::loadEffect("ASSETS/Sound/Retro_8-Bit_Game-Pickup_Object_Item_Coin_18.wav");
+	Engine::effect[4] = Sound::loadEffect("ASSETS/Sound/Retro_8-Bit_Game-Bomb_Explosion_17.wav");
+
 
 	controllerInit();
 
@@ -112,7 +116,10 @@ void Engine::handle_event(float time)
 	{
 		if (keys[SDL_SCANCODE_A]  && !player->isOnGround || cont.AButton && !player->isOnGround) {
 			player->smoke(map);
-		}	
+			player->allowExt = false;
+		}
+		if(!keys[SDL_SCANCODE_A])
+			player->allowExt = true;	
 		if(player->isOnGround)
 			player->setGravity(true);
 
@@ -160,7 +167,7 @@ void Engine::render()
 
 void Engine::playBG()
 {
-	Sound::setVolume(150);
+	Sound::setVolume(60);
 	Sound::playBackground(Bg,1);
 }
 
@@ -168,7 +175,8 @@ void Engine::sounds()
 {
 	if(i != map->NumOfCit)
 	{
-		Sound::playEffect(Engine::effect[0]);
+		//Sound::playEffect(Engine::effect[3]);
+		print(i);
 	}	
 	i = map->NumOfCit;
 }

@@ -26,6 +26,7 @@ Player::Player(const char* texturesheet, float x, float y) : GameObject(textures
 
 void Player::Movement(int style)
 {
+	vel.y += 20.0f * Engine::time; // Gravity.
 	if (style == RPG)
 	{
 		if(!gravity)
@@ -51,6 +52,9 @@ void Player::Movement(int style)
 				vel.x = 0; 
 				frame.num = 1;
 			}
+			vel.x += -3.0f * vel.x * Engine::time; // Slows us to a stop.
+			if (fabs(vel.x) < 0.01f)
+				vel.x = 0.0f;
 		}
 		
 		if (vel.x == 0 && vel.y == 0)
@@ -58,15 +62,6 @@ void Player::Movement(int style)
 			frame.num = 1;
 		}	
 		else frame.num = 2;
-
-		vel.y += 20.0f * Engine::time; // Gravity.
-		if (isOnGround) // Slows us to a stop.
-		{
-			vel.x += -3.0f * vel.x * Engine::time;
-			if (fabs(vel.x) < 0.01f)
-				vel.x = 0.0f;
-		}
-
 	}
 
 	// SCREEN BOUNDS.
@@ -78,15 +73,18 @@ void Player::Movement(int style)
 		setYpos((int)* getYpos());
 	else if (*getYpos() >= Engine::mapSizeY - 2)
 		setYpos((int)* getYpos());
+	if (*getYpos() <= 12)
+	{
+		pos.y = 12;
+	}
 }
 
 void Player::update(Map* map)
 {
-	GameObject::update();
 	Collect(map);
-
 	if(isOnGround)
 		hitFire = false;
+	GameObject::update();
 }
 void Player::setGravity(bool a)
 {
@@ -103,13 +101,13 @@ void Player::Collect(Map* map)
 	if (Collision::ItemCollect(map, *getXpos(), *getYpos(), 1, 0))
 	{
 		// Do stuff if we collect a coin.
-		Sound::playEffect(Engine::effect[0]);
+		Sound::playEffect(Engine::effect[3]);
 		Player::coins += 100;
 	}
 	if (Collision::ItemCollect(map, *getXpos(), *getYpos(), 2, 0))
 	{
 		// Do stuff if we collect a coin.
-		Sound::playEffect(Engine::effect[0]);
+		Sound::playEffect(Engine::effect[3]);
 		Player::coins += 100;
 	}
 	if (Collision::ItemCollect(map, *getXpos(), *getYpos(), 3, 3))
@@ -118,6 +116,7 @@ void Player::Collect(Map* map)
 		pos.y = pos.y +1;
 		pos.x = pos.x +1;
 		setGravity(true);
+		isOnGround = false;
 		// Do stuff if we collect a coin.
 		Sound::playEffect(Engine::effect[0]);
 		Player::coins -= 100;
@@ -176,5 +175,22 @@ void Player::jump()
 
 void Player::smoke(Map* map)
 {
-	map->setItemTile(pos.x,pos.y-1,57);
+	if(map->getItemTile(pos.x,pos.y-1) == 11)
+	{
+		if(allowExt)
+		{
+			Sound::playEffect(Engine::effect[4]);
+			map->setItemTile(pos.x,pos.y-1,57);
+			map->setItemTile(pos.x,pos.y-2,57);
+		}
+	}
+	else if(map->getItemTile(pos.x,pos.y-2) == 11)
+	{
+		if(allowExt)
+		{
+			Sound::playEffect(Engine::effect[4]);
+			map->setItemTile(pos.x,pos.y-2,57);
+			map->setItemTile(pos.x,pos.y-3,57);
+		}
+	}
 }

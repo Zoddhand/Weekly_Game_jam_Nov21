@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <time.h>
+#include "Sound.h"
 
 Map::Map()
 {
@@ -39,7 +40,6 @@ Map::~Map()
 void Map::update()
 {
 	srand ( time(NULL) );
-	print(NumOfCit);
 }
 
 void Map::render()
@@ -52,6 +52,7 @@ void Map::render()
 	drawBackground();
 	newWin = false;
 	newFire = false;
+	IntOvr = true;
 }
 
 void Map::loadMap(std::string txt, int arr[Engine::mapSizeY][Engine::mapSizeX])
@@ -132,7 +133,15 @@ void Map::drawMap(int arr[Engine::mapSizeY][Engine::mapSizeX])
 				{
 					if(rand() % 6 + 1 == 3)
 						{
-							setItemTile(k,i,3);
+							print("arr:" << arr[i][k]);
+							if(IntOvr)
+							{
+								if(getItemTile(k,i) == 1 || getItemTile(k,i) == 2)
+									Sound::playEffect(Engine::effect[2]);
+							}	
+							print("Loud annoying sound");
+							setItemTile(k,i-1,3);
+							setItemTile(k,i,11);
 						}
 				}
 
