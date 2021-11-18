@@ -97,8 +97,14 @@ void Engine::handle_event(float time)
 			run = false;
 			break;
 		case SDLK_1:
-			//map->loadLevel(1);
+			map->loadLevel(1);
 			map->newFire = true;
+			map->IntOvr = false;
+			map->newWin = true;
+			player->setXpos(10);
+			player->setYpos(260);
+			ladder->setXpos(40);
+			ladder->setYpos(100);
 			Sound::playEffect(Engine::effect[0]);
 			//style = 0;
 			break;
