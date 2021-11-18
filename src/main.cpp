@@ -16,15 +16,14 @@ int main(int argc, char* argv[])
 {
 
 	engine = new Engine("Firefighter Action", 500, 50, false);
+
+	
+	auto tp1 = std::chrono::system_clock::now();
+	auto tp2 = std::chrono::system_clock::now();
+		
+
 	while (engine->run)
 	{
-			
-
-		auto tp1 = std::chrono::system_clock::now();
-		auto tp2 = std::chrono::system_clock::now();
-		
-		while(!engine->restart)
-		{
 			tp2 = std::chrono::system_clock::now();
 			std::chrono::duration<float> elapsedTime = tp2 - tp1;
 			tp1 = tp2;
@@ -39,16 +38,13 @@ int main(int argc, char* argv[])
 				engine->update();
 				engine->render();
 			
-
 			frametime = SDL_GetTicks() - frameStart;
-
 			if (frameDelay > frametime)
 			{
 				SDL_Delay(frameDelay - frametime);
 				//system("CLS");
 			}
-		}
-		engine->restart = false;
+		
 	}
 	return 0;
 }

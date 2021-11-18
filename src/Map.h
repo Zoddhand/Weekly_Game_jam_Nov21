@@ -45,5 +45,6 @@ public:
 	bool newFire = true;
 	int NumOfCit = 0;
 	bool IntOvr = false;
+	int NumOfFir = 0;
 };
 

@@ -133,11 +133,10 @@ void Map::drawMap(int arr[Engine::mapSizeY][Engine::mapSizeX])
 				{
 					if(rand() % 6 + 1 == 3)
 						{
-							print("arr:" << arr[i][k]);
 							if(IntOvr)
 							{
 								if(getItemTile(k,i) == 1 || getItemTile(k,i) == 2)
-									Sound::playEffect(Engine::effect[2]);
+									Sound::playEffect(Engine::effect[2],2);
 							}	
 							setItemTile(k,i-1,3);
 							setItemTile(k,i,11);
@@ -167,6 +166,7 @@ void Map::drawMap(int arr[Engine::mapSizeY][Engine::mapSizeX])
 			}
 			if (arr[i][k] == 3)
 			{
+				NumOfFir += 1;
 				sprite[fire].dest.x = sprite[tile].dest.x;
 				sprite[fire].dest.y = sprite[tile].dest.y;
 				sprite[fire].dest.w = 8;

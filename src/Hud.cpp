@@ -30,10 +30,19 @@ void Engine::hud()
 		
 	//SCORE #
 
-	SDL_Rect Sdest = { 0, 0, 64, 12 };
+	SDL_Rect Sdest = { 8, 0, 64, 12 };
 	Sdest.y = 8;
 	char buffer2[256]; sprintf(buffer2, "%06d", Player::coins);
 	string str(buffer2);
 	c = str.c_str();
 	TextureManager::DrawFont(font, c, { 255,255,255}, Sdest);
+
+	
+	//Health
+	SDL_Rect hdest = { screen_width - 40, 0, 32, 12 };
+	hdest.y = 8;
+	std::string text2 = "life  ";
+	text2 += std::to_string(Player::health);
+	c = text2.c_str();
+	TextureManager::DrawFont(font, c, { 255,255,255}, hdest);
 }

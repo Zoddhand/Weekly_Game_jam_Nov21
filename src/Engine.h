@@ -37,7 +37,6 @@ public:
 	~Engine();
 	//Public Variables.
 	bool run = true;
-	bool restart = false;
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
 
 	//Static Variables.
@@ -65,6 +64,11 @@ public:
 	void Controller();
 	void controllerInit();
 	void hud();
-	void sounds();
+	void saveHighscore();
+	void Restart();
+	bool Timer(int);
 	int i;
+	int scale;
+	bool timerStart = true;
+	int start;
 };

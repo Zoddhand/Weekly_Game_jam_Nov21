@@ -13,7 +13,7 @@ public:
 	static int highscore;
 	bool gravity = true;
 	bool hitFire;
-	int lives = 3;
+	static int health;
 	bool allowExt = true;
 
 	Player(const char* texturesheet, float x, float y);

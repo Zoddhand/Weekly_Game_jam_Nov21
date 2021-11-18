@@ -6,6 +6,7 @@
 bool Player::isOnGround;
 int Player::coins = 0;
 int Player::highscore = 0;
+int Player::health = 3;
 
 Player::Player(const char* texturesheet, float x, float y) : GameObject(texturesheet,x,y,8,8)
 {
@@ -57,9 +58,11 @@ void Player::Movement(int style)
 		if(isOnGround)
 		{
 			if (keys[SDL_SCANCODE_RIGHT] || Engine::cont.Right) {
+				Sound::playEffect(Engine::effect[5]);
 				moveRight(RPG);
 			}
 			else if (keys[SDL_SCANCODE_LEFT] || Engine::cont.Left) {
+				Sound::playEffect(Engine::effect[5]);
 				moveLeft(RPG);
 			}
 			else 
@@ -94,6 +97,12 @@ void Player::update(Map* map)
 	if(isOnGround)
 		hitFire = false;
 	GameObject::update();
+	if(coins <= 0)
+		coins = 0;
+	if(health == 0)
+	{
+		coins = 0;
+	}
 }
 void Player::setGravity(bool a)
 {
@@ -122,6 +131,7 @@ void Player::Collect(Map* map)
 	if (Collision::ItemCollect(map, *getXpos(), *getYpos(), 3, 3))
 	{
 		hitFire = true;
+		health -= 1;
 		pos.y = pos.y +1;
 		pos.x = pos.x +1;
 		setGravity(true);
@@ -188,6 +198,7 @@ void Player::smoke(Map* map)
 	{
 		if(allowExt)
 		{
+			coins += 100;
 			Sound::playEffect(Engine::effect[4]);
 			map->setItemTile(pos.x,pos.y-1,57);
 			map->setItemTile(pos.x,pos.y-2,57);
@@ -197,6 +208,7 @@ void Player::smoke(Map* map)
 	{
 		if(allowExt)
 		{
+			coins += 100;
 			Sound::playEffect(Engine::effect[4]);
 			map->setItemTile(pos.x,pos.y-2,57);
 			map->setItemTile(pos.x,pos.y-3,57);
