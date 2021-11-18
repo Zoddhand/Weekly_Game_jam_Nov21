@@ -5,6 +5,7 @@
 
 bool Player::isOnGround;
 int Player::coins = 0;
+int Player::highscore = 0;
 
 Player::Player(const char* texturesheet, float x, float y) : GameObject(texturesheet,x,y,8,8)
 {
@@ -23,12 +24,22 @@ Player::Player(const char* texturesheet, float x, float y) : GameObject(textures
 	dest.w = 10;
 	dest.h = Engine::tileSize *2;
 }
+Player::~Player()
+{
+	print("destroyed Player");
+}
 
 void Player::Movement(int style)
 {
 	vel.y += 20.0f * Engine::time; // Gravity.
 	if (style == RPG)
 	{
+				
+		if (vel.x == 0 && vel.y == 0)
+		{
+			frame.num = 1;
+		}	
+		else frame.num = 2;
 		if(!gravity)
 		{
 			if (keys[SDL_SCANCODE_DOWN] || Engine::cont.Down) {
@@ -37,7 +48,11 @@ void Player::Movement(int style)
 			else if (keys[SDL_SCANCODE_UP] || Engine::cont.Up) {
 				moveUp();
 			}
-			else vel.y = 0; frame.num = 1;
+			else 
+			{
+				vel.y = 0; 
+				frame.num = 1;
+			}	
 		}
 		if(isOnGround)
 		{
@@ -56,12 +71,6 @@ void Player::Movement(int style)
 			if (fabs(vel.x) < 0.01f)
 				vel.x = 0.0f;
 		}
-		
-		if (vel.x == 0 && vel.y == 0)
-		{
-			frame.num = 1;
-		}	
-		else frame.num = 2;
 	}
 
 	// SCREEN BOUNDS.
@@ -175,7 +184,7 @@ void Player::jump()
 
 void Player::smoke(Map* map)
 {
-	if(map->getItemTile(pos.x,pos.y-1) == 11)
+	if(map->getItemTile(pos.x,pos.y-1) == 11 || map->getItemTile(pos.x,pos.y-1) == 3)
 	{
 		if(allowExt)
 		{
@@ -184,7 +193,7 @@ void Player::smoke(Map* map)
 			map->setItemTile(pos.x,pos.y-2,57);
 		}
 	}
-	else if(map->getItemTile(pos.x,pos.y-2) == 11)
+	else if(map->getItemTile(pos.x,pos.y-2) == 11  || map->getItemTile(pos.x,pos.y-1) == 3)
 	{
 		if(allowExt)
 		{

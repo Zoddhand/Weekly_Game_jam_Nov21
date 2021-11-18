@@ -10,6 +10,7 @@ private:
 public:
 	static bool isOnGround;
 	static int coins;
+	static int highscore;
 	bool gravity = true;
 	bool hitFire;
 	int lives = 3;
@@ -18,6 +19,7 @@ public:
 	Player(const char* texturesheet, float x, float y);
 	void Movement(int);
 	void Collect(Map* map);
+	virtual ~Player();
 	virtual void update(Map* map);
 	virtual void moveLeft(int style);
 	virtual void moveRight(int style);

@@ -139,7 +139,6 @@ void Map::drawMap(int arr[Engine::mapSizeY][Engine::mapSizeX])
 								if(getItemTile(k,i) == 1 || getItemTile(k,i) == 2)
 									Sound::playEffect(Engine::effect[2]);
 							}	
-							print("Loud annoying sound");
 							setItemTile(k,i-1,3);
 							setItemTile(k,i,11);
 						}

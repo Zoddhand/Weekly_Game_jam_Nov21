@@ -8,7 +8,6 @@ using namespace std;
 #include "Player.h"
 #include "Collision.h"
 #include "Sound.h"
-#include "Timer.h"
 
 float Engine::time;
 Engine::Control Engine::cont;
@@ -68,11 +67,28 @@ Engine::Engine(const char* title, int posX, int posY, bool fullscreen)
 	ladder = new GameObject("ASSETS/Sprites/ladder.png",40,100,8,8*27);
 	col = new Collision(map);
 	sound = new Sound();
+	font = TextureManager::LoadFont("ASSETS/Fonts/ARCADECLASSIC.TTF",16);
+	if(font != NULL)
+	{
+		print("Successfully loaded" << font);
+	}
+	else
+	{
+		print("TTF Error:" << TTF_GetError());
+	}
 }
 
 Engine::~Engine()
 {
-	
+	SDL_DestroyWindow(window);
+	SDL_DestroyRenderer(renderer);
+	delete camera;
+	delete map;
+	delete player;
+	delete ladder;
+	delete col;
+	delete sound;
+	SDL_Quit();
 }
 
 void Engine::handle_event(float time)
@@ -109,8 +125,7 @@ void Engine::handle_event(float time)
 			//style = 0;
 			break;
 		case SDLK_2:
-			//map->loadLevel(2);
-			style = 1;
+			Engine::restart = true;
 			break;
 		case SDLK_a:
 			
@@ -120,7 +135,7 @@ void Engine::handle_event(float time)
 	player->Movement(style);
 		if(!player->hitFire)
 	{
-		if (keys[SDL_SCANCODE_A]  && !player->isOnGround || cont.AButton && !player->isOnGround) {
+		if ((keys[SDL_SCANCODE_A] && !player->isOnGround) || (cont.AButton && !player->isOnGround)) {
 			player->smoke(map);
 			player->allowExt = false;
 		}
@@ -131,7 +146,7 @@ void Engine::handle_event(float time)
 
 		if(col->rectCol(player->dest,ladder->dest))
 		{
-			if (keys[SDL_SCANCODE_A]  && player->isOnGround == true || cont.AButton && player->isOnGround == true) {	
+			if ((keys[SDL_SCANCODE_A]  && player->isOnGround == true) || (cont.AButton && player->isOnGround == true)) {	
 				ladder->setXpos(*player->getXpos());
 			}
 			else if(keys[SDL_SCANCODE_UP] || cont.Up)
@@ -155,7 +170,7 @@ void Engine::update()
 	col->collide(*player->getXpos(), *player->getYpos(), *player->getXvel(), *player->getYvel());
 	player->update(map);
 	ladder->update();
-	camera->update(*player->getXpos(), *player->getYpos());
+	//camera->update(*player->getXpos(), *player->getYpos());
 	map->update();
 }
 

@@ -37,6 +37,7 @@ public:
 	~Engine();
 	//Public Variables.
 	bool run = true;
+	bool restart = false;
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
 
 	//Static Variables.
@@ -51,6 +52,8 @@ public:
 	static float time;
 	static Control cont;
 	static Mix_Chunk* effect[10];
+	TTF_Font* font;
+
 
 	//Static Functions.
 
